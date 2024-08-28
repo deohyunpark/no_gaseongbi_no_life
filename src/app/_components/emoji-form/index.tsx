@@ -46,7 +46,7 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
             submitRef.current?.click()
           }
         }}
-        placeholder="cat"
+        placeholder="휴"
         className="bg-transparent text-white placeholder:text-gray-400 ring-0 outline-none resize-none py-2.5 px-2 font-mono text-sm h-10 w-full transition-all duration-300"
       />
       <input aria-hidden type="text" name="token" value={token} className="hidden" readOnly />
