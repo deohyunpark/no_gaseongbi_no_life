@@ -79,7 +79,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           {children}
         </main>
-        <Providers />
       </body>
     </html>
   );
