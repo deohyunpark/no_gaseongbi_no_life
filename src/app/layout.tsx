@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Providers } from "./_components/providers";
 import "./globals.css";
 
@@ -53,9 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span>노노가성비</span>
             </Link>
             <Link href="/new-deal">
-              <Button variant="outline" size="sm" className="flex items-center">
-                <Plus className="mr-2 h-4 w-4" /> 새로운 딜 등록하기
-              </Button>
+              <span>새로운 딜 등록하기</span>
             </Link>
           </div>
           <div className="flex flex-row flex-nowrap gap-x-1.5 items-center">
