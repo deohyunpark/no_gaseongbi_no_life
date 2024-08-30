@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useForm, FieldValues } from "react-hook-form"
+import { useForm, FieldError } from "react-hook-form"
 import { createEmoji } from "./action"
 import { SubmitButton } from "./submit-button"
 import toast from "react-hot-toast"
@@ -11,7 +11,7 @@ interface EmojiFormProps {
   initialPrompt?: string
 }
 
-interface FormData extends FieldValues {
+interface FormData {
   prompt: string;
   token: string;
 }
@@ -22,17 +22,17 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
   const [token, setToken] = useState("")
 
   useEffect(() => {
-    const errors = Object.values(formState.errors);
-    if (errors.length > 0) {
-      errors.forEach((error) => {
-        if (error && typeof error.message === 'string') {
-          toast.error(error.message);
+    if (formState.errors) {
+      Object.values(formState.errors).forEach((error) => {
+        const fieldError = error as FieldError
+        if (fieldError && fieldError.message) {
+          toast.error(fieldError.message)
         }
-      });
+      })
     }
-  }, [formState.errors])
+  }, [formState])
 
-  useSWR<string>(
+  useSWR(
     "/api/token",
     async (url: string) => {
       const res = await fetch(url)
@@ -44,7 +44,7 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
     }
   )
 
-  const onSubmit = async (data: Record<string, any>) => {
+  const onSubmit = async (data: FormData) => {
     try {
       await createEmoji(data, token)
       // 성공 처리 (예: 토스트 메시지 표시)
@@ -54,6 +54,7 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
       toast.error("이모지 생성에 실패했습니다.")
     }
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="bg-black rounded-xl shadow-lg h-fit flex flex-row px-1 items-center w-full">
       <input
