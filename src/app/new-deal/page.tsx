@@ -120,7 +120,7 @@ const jwtToken = session?.access_token; // JWT 토큰 가져오기
               Authorization: `Bearer ${jwtToken}`
             }
           });
-
+        console.log(jwtToken:",jwtToken);
         if (uploadError) throw uploadError;
 
         imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
