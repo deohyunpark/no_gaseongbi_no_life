@@ -74,8 +74,6 @@ const Alert = React.forwardRef<HTMLDivElement, { variant?: 'default' | 'destruct
 );
 Alert.displayName = "Alert";
 
-
-
 const NewDealPage: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -96,62 +94,59 @@ const NewDealPage: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData(prev => ({ ...prev, image: e.target.files![0] }));
+      setFormData(prev => ({ ...prev, image: e.target.files[0] }));
     }
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setError(null);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
-  try {
-    // 이미지 업로드
-    let imageUrl = '';
-    const session = supabase.auth.session(); // 현재 세션 가져오기
-    const jwtToken = session?.access_token; // JWT 토큰 가져오기
-    
-    if (formData.image) {
-      const { data, error: uploadError } = await supabase.storage
-        .from('images') // 스토리지 버킷 이름
-        .upload(`public/${formData.image.name}`, formData.image, {
-        headers: {
-           Authorization: `Bearer ${jwtToken}`
-          }
-        });
+    try {
+      // 이미지 업로드
+      let imageUrl = '';
+      const session = supabase.auth.session(); // 현재 세션 가져오기
+      const jwtToken = session?.access_token; // JWT 토큰 가져오기
+      
+      if (formData.image) {
+        const { data, error: uploadError } = await supabase.storage
+          .from('images') // 스토리지 버킷 이름
+          .upload(`public/${formData.image.name}`, formData.image, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`
+            }
+          });
 
-      if (uploadError) throw uploadError;
+        if (uploadError) throw uploadError;
 
-      imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
+        imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
       }
-    } catch (error) {
-    console.error("업로드 오류:", error);
-}
 
-    // 데이터베이스에 상품 정보 저장
-    const { error: dbError } = await supabase
-      .from('deals') // 테이블 이름
-      .insert([
-        {
-          product_name: formData.productName,
-          category: formData.category,
-          link: formData.link,
-          image_url: imageUrl,
-          registration_date: formData.registrationDate,
-          expiration_date: formData.expirationDate,
-        },
-      ]);
+      // 데이터베이스에 상품 정보 저장
+      const { error: dbError } = await supabase
+        .from('deals') // 테이블 이름
+        .insert([
+          {
+            product_name: formData.productName,
+            category: formData.category,
+            link: formData.link,
+            image_url: imageUrl,
+            registration_date: formData.registrationDate,
+            expiration_date: formData.expirationDate,
+          },
+        ]);
 
-    if (dbError) throw dbError;
+      if (dbError) throw dbError;
 
-    router.push('/');
-  } catch (err) {
-    console.error(err);
-    setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+      router.push('/');
+    } catch (err) {
+      console.error(err);
+      setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto mt-10">
@@ -210,4 +205,4 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   );
 };
 
-export default NewDealPage; 
+export default NewDealPage;
