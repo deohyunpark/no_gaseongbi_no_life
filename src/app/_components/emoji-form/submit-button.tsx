@@ -1,22 +1,22 @@
-import { CornerDownLeft } from "lucide-react"
-import React from "react"
-import { useFormStatus } from "react-hook-form" // react-hook-form에서 import
-import { Loader } from "../loader"
+import { CornerDownLeft } from "lucide-react";
+import React from "react";
+import { useFormState } from "react-hook-form"; // 수정된 부분
+import { Loader } from "../loader";
 
 export const SubmitButton = React.forwardRef<React.ElementRef<"button">>((_, ref) => {
-  const { pending } = useFormStatus()
+  const { isSubmitting } = useFormState(); // isSubmitting으로 상태 관리
 
   return (
     <button
       ref={ref}
       type="submit"
-      disabled={pending}
-      aria-disabled={pending}
+      disabled={isSubmitting}
+      aria-disabled={isSubmitting}
       className="text-white rounded-lg hover:bg-white/25 focus:bg-white/25 w-8 h-8 aspect-square flex items-center justify-center ring-0 outline-0"
     >
-      {pending ? <Loader /> : <CornerDownLeft size={16} className="-ml-px" />}
+      {isSubmitting ? <Loader /> : <CornerDownLeft size={16} className="-ml-px" />}
     </button>
-  )
-})
+  );
+});
 
-SubmitButton.displayName = "SubmitButton"
+SubmitButton.displayName = "SubmitButton";
