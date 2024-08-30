@@ -7,6 +7,5 @@ export { contentType, size } from "./_components/favicon"
 
 export default async function Icon() {
   const specifiedImageUrl = "https://deohyunpark.github.io/image/profile/%ED%8C%8C%EB%B9%84%EC%BD%98.png";
-  const size = 32;
-  return Favicon({ url: specifiedImageUrl, size });
+  return Favicon({ url: specifiedImageUrl });
 }
