@@ -1,7 +1,5 @@
-"use client"
-
 import { useEffect, useRef, useState } from "react"
-import { useForm, FieldError } from "react-hook-form"
+import { useForm, FieldValues } from "react-hook-form"
 import { createEmoji } from "./action"
 import { SubmitButton } from "./submit-button"
 import toast from "react-hot-toast"
@@ -11,28 +9,29 @@ interface EmojiFormProps {
   initialPrompt?: string
 }
 
-interface FormData {
+interface FormState extends FieldValues {
   prompt: string;
   token: string;
+  message: string; // 'message' 필드 추가
 }
 
 export function EmojiForm({ initialPrompt }: EmojiFormProps) {
-  const { register, handleSubmit, formState } = useForm<FormData>()
+  const { register, handleSubmit, formState } = useForm<FormState>()
   const submitRef = useRef<React.ElementRef<"button">>(null)
   const [token, setToken] = useState("")
 
   useEffect(() => {
-    if (formState.errors) {
-      Object.values(formState.errors).forEach((error) => {
-        const fieldError = error as FieldError
-        if (fieldError && fieldError.message) {
-          toast.error(fieldError.message)
+    const errors = Object.values(formState.errors);
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        if (error && typeof error.message === 'string') {
+          toast.error(error.message);
         }
-      })
+      });
     }
-  }, [formState])
+  }, [formState.errors])
 
-  useSWR(
+  useSWR<string>(
     "/api/token",
     async (url: string) => {
       const res = await fetch(url)
@@ -44,14 +43,13 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
     }
   )
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormState) => {
     try {
-      await createEmoji(data, token)
-      // 성공 처리 (예: 토스트 메시지 표시)
+      await createEmoji(data)
       toast.success("이모지가 성공적으로 생성되었습니다!")
     } catch (error) {
-      // 오류 처리
-      toast.error("이모지 생성에 실패했습니다.")
+      console.error('Error creating emoji:', error);
+      toast.error('이모지 생성에 실패했습니다.');
     }
   }
 
