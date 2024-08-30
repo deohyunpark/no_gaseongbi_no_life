@@ -117,7 +117,7 @@ console.log("jwtToken:",jwtToken);
           .from('images') // 스토리지 버킷 이름
           .upload(`public/${formData.image.name}`, formData.image, {
             headers: {
-              Authorization: `Bearer ${jwtToken}`
+              'Authorization': `Bearer ${jwtToken}`
             }
           });
         
