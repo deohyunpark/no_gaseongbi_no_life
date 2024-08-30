@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
 import { createEmoji } from "./action"
 import { SubmitButton } from "./submit-button"
-// @ts-expect-error
-import { experimental_useFormState as useFormState } from "react-dom"
 import toast from "react-hot-toast"
 import useSWR from "swr"
 
@@ -13,13 +12,14 @@ interface EmojiFormProps {
 }
 
 export function EmojiForm({ initialPrompt }: EmojiFormProps) {
-  const [formState, formAction] = useFormState(createEmoji)
+  const { register, handleSubmit, formState } = useForm()
   const submitRef = useRef<React.ElementRef<"button">>(null)
   const [token, setToken] = useState("")
 
   useEffect(() => {
-    if (!formState) return
-    toast.error(formState.message)
+    if (formState.errors) {
+      toast.error(formState.errors.message)
+    }
   }, [formState])
 
   useSWR(
@@ -34,12 +34,16 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
     }
   )
 
+  const onSubmit = (data) => {
+    createEmoji(data)
+  }
+
   return (
-    <form action={formAction} className="bg-black rounded-xl shadow-lg h-fit flex flex-row px-1 items-center w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-black rounded-xl shadow-lg h-fit flex flex-row px-1 items-center w-full">
       <input
         defaultValue={initialPrompt}
         type="text"
-        name="prompt"
+        {...register("prompt")}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault()
@@ -49,7 +53,7 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
         placeholder="휴"
         className="bg-transparent text-white placeholder:text-gray-400 ring-0 outline-none resize-none py-2.5 px-2 font-mono text-sm h-10 w-full transition-all duration-300"
       />
-      <input aria-hidden type="text" name="token" value={token} className="hidden" readOnly />
+      <input aria-hidden type="text" {...register("token")} value={token} className="hidden" readOnly />
       <SubmitButton ref={submitRef} />
     </form>
   )
