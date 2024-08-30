@@ -3,16 +3,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// 유틸리티 함수
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
 
-// Input 컴포넌트
 const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, ...props }, ref) => {
     return (
       <input
         className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
           className
         )}
         ref={ref}
@@ -23,13 +21,12 @@ const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLI
 );
 Input.displayName = "Input";
 
-// Button 컴포넌트
 const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
   ({ className, ...props }, ref) => {
     return (
       <button
         className={cn(
-          "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2",
+          "inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2",
           className
         )}
         ref={ref}
@@ -40,31 +37,13 @@ const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HT
 );
 Button.displayName = "Button";
 
-// Select 컴포넌트
-const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <select
-        className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Select.displayName = "Select";
-
-// Label 컴포넌트
 const Label = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLLabelElement>>(
   ({ className, ...props }, ref) => {
     return (
       <label
         ref={ref}
         className={cn(
-          "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+          "text-sm font-medium leading-none",
           className
         )}
         {...props}
@@ -74,12 +53,7 @@ const Label = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLL
 );
 Label.displayName = "Label";
 
-// Alert 컴포넌트
-interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'destructive';
-}
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+const Alert = React.forwardRef<HTMLDivElement, { variant?: 'default' | 'destructive'; className?: string; }>(
   ({ className, variant = 'default', ...props }, ref) => {
     return (
       <div
@@ -97,37 +71,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 );
 Alert.displayName = "Alert";
 
-const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h5
-      ref={ref}
-      className={cn("font-medium text-lg", className)}
-      {...props}
-    />
-  )
-);
-AlertTitle.displayName = "AlertTitle";
-
-const AlertDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("text-sm mt-1", className)}
-      {...props}
-    />
-  )
-);
-AlertDescription.displayName = "AlertDescription";
-
-// 간단한 Calendar 컴포넌트 (실제 달력 기능은 없음)
-const Calendar = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  (props, ref) => {
-    return <Input type="date" ref={ref} {...props} />;
-  }
-);
-Calendar.displayName = "Calendar";
-
-// NewDealPage 컴포넌트
 const NewDealPage: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -158,13 +101,8 @@ const NewDealPage: React.FC = () => {
     setError(null);
 
     try {
-      // 여기에 실제 제출 로직을 구현하세요
       console.log('폼 데이터:', formData);
-      
-      // API 호출 시뮬레이션
       await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // 성공적인 제출 후 홈 페이지로 리다이렉트
       router.push('/');
     } catch (err) {
       setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
@@ -184,12 +122,12 @@ const NewDealPage: React.FC = () => {
 
         <div className="mb-4">
           <Label htmlFor="category">카테고리</Label>
-          <Select id="category" name="category" value={formData.category} onChange={handleChange} required>
+          <select id="category" name="category" value={formData.category} onChange={handleChange} required className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
             <option value="">카테고리 선택</option>
             <option value="electronics">전자기기</option>
             <option value="clothing">의류</option>
             <option value="food">식품</option>
-          </Select>
+          </select>
         </div>
 
         <div className="mb-4">
@@ -200,22 +138,25 @@ const NewDealPage: React.FC = () => {
         <div className="mb-4">
           <Label htmlFor="image">이미지</Label>
           <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} required />
+          {formData.image && (
+            <img src={URL.createObjectURL(formData.image)} alt="썸네일" className="mt-2 h-20 w-20 object-cover rounded-md" />
+          )}
         </div>
 
         <div className="mb-4">
           <Label htmlFor="registrationDate">등록일</Label>
-          <Calendar id="registrationDate" name="registrationDate" value={formData.registrationDate} onChange={handleChange} required />
+          <Input id="registrationDate" name="registrationDate" type="date" value={formData.registrationDate} onChange={handleChange} required />
         </div>
 
         <div className="mb-4">
           <Label htmlFor="expirationDate">마감일</Label>
-          <Calendar id="expirationDate" name="expirationDate" value={formData.expirationDate} onChange={handleChange} required />
+          <Input id="expirationDate" name="expirationDate" type="date" value={formData.expirationDate} onChange={handleChange} required />
         </div>
 
         {error && (
           <Alert variant="destructive" className="mb-4">
-            <AlertTitle>에러</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
+            <h5 className="font-medium text-lg">에러</h5>
+            <div className="text-sm mt-1">{error}</div>
           </Alert>
         )}
 
@@ -227,4 +168,4 @@ const NewDealPage: React.FC = () => {
   );
 };
 
-export default NewDealPage;
+export default NewDealPage; 
