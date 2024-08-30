@@ -46,14 +46,15 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
   )
 
   const onSubmit = async (data: FormState) => {
-    try {
-      await createEmoji(data)
-      toast.success("이모지가 성공적으로 생성되었습니다!")
-    } catch (error) {
-      console.error('Error creating emoji:', error);
-      toast.error('이모지 생성에 실패했습니다.');
-    }
+  try {
+    // token은 컴포넌트의 state에서 가져옵니다.
+    await createEmoji(data, token)
+    toast.success("이모지가 성공적으로 생성되었습니다!")
+  } catch (error) {
+    console.error('Error creating emoji:', error);
+    toast.error('이모지 생성에 실패했습니다.');
   }
+}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="bg-black rounded-xl shadow-lg h-fit flex flex-row px-1 items-center w-full">
