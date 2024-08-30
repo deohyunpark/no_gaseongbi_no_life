@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from 'src/app/supabaseClient';
+import { supabase } from '@/app/supabaseClient';
 
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
 
