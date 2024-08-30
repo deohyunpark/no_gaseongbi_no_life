@@ -6,7 +6,10 @@ export async function POST(req: Request) {
   try {
     const searchParams = new URL(req.url).searchParams
     const parsedParams = webhookSchema.safeParse(Object.fromEntries(searchParams))
-    if (!parsedParams.success) return Response.invalidRequest(parsedParams.error)
+    if (!parsedParams.success) {
+      return Response.invalidRequest(parsedParams.error)
+    }
+    
     const { id } = parsedParams.data
 
     // get output from Replicate
@@ -15,7 +18,10 @@ export async function POST(req: Request) {
     if (!output) return Response.badRequest("Missing output")
 
     // convert output to a blob object
-    const file = await fetch(output).then((res) => res.blob())
+    const res = await fetch(output)
+    if (!res.ok) return Response.badRequest("Failed to fetch output")
+    
+    const file = await res.blob()
 
     // upload & store image
     const { url } = await put(`${id}-no-background.png`, file, { access: "public" })
@@ -25,7 +31,7 @@ export async function POST(req: Request) {
 
     return Response.success()
   } catch (error) {
-    console.error(error)
+    console.error("Error occurred:", error)
     return Response.internalServerError()
   }
 }
