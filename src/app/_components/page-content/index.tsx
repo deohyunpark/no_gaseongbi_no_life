@@ -11,7 +11,7 @@ export const PageContent = ({ children, prompt }: PageContentProps) => {
   return (
     <>
       <div className="py-[15vh] sm:py-[20vh] flex flex-col items-center justify-center">
-        <h1 className="font-medium text-4xl text-black mb-3 animate-in fade-in slide-in-from-bottom-3 duration-1000 ease-in-out" href="/">
+        <h1 className="font-medium text-4xl text-black mb-3 animate-in fade-in slide-in-from-bottom-3 duration-1000 ease-in-out">
           노노가성비 우애애애애앵
         </h1>
         <EmojiCount />
