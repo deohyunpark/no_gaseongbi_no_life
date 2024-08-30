@@ -108,19 +108,25 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   try {
     // 이미지 업로드
     let imageUrl = '';
+    const session = supabase.auth.session(); // 현재 세션 가져오기
+    const jwtToken = session?.access_token; // JWT 토큰 가져오기
+    
     if (formData.image) {
       const { data, error: uploadError } = await supabase.storage
         .from('images') // 스토리지 버킷 이름
         .upload(`public/${formData.image.name}`, formData.image, {
         headers: {
-           Authorization: `yPyO/Z7sjsYyaVYjp5TZceD0NFlbGWCqF+0h3Do5fuwmH+OVxo7eq/p322SnndrDDzzmYEVQZCDYKQiTR/VRmA==`
+           Authorization: `Bearer ${jwtToken}`
           }
         });
 
       if (uploadError) throw uploadError;
 
       imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
-    }
+      }
+    } catch (error) {
+    console.error("업로드 오류:", error);
+}
 
     // 데이터베이스에 상품 정보 저장
     const { error: dbError } = await supabase
