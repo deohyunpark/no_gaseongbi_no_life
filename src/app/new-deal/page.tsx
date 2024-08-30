@@ -113,7 +113,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         .from('images') // 스토리지 버킷 이름
         .upload(`public/${formData.image.name}`, formData.image, {
         headers: {
-           Authorization: `Bearer yPyO/Z7sjsYyaVYjp5TZceD0NFlbGWCqF+0h3Do5fuwmH+OVxo7eq/p322SnndrDDzzmYEVQZCDYKQiTR/VRmA==`
+           Authorization: `yPyO/Z7sjsYyaVYjp5TZceD0NFlbGWCqF+0h3Do5fuwmH+OVxo7eq/p322SnndrDDzzmYEVQZCDYKQiTR/VRmA==`
           }
         });
 
