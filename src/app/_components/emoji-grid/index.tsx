@@ -1,12 +1,17 @@
 import { getEmojis } from "@/server/get-emojis";
 import { EmojiCard } from "../emoji-card";
 
+interface Emoji {
+  id: string; // 또는 적절한 타입으로 변경
+  updatedAt: Date; // 필요에 따라 추가
+}
+
 interface EmojiGridProps {
   prompt?: string;
 }
 
 export async function EmojiGrid({ prompt }: EmojiGridProps) {
-  let emojis = [];
+  let emojis: Emoji[] = []; // 타입 지정
 
   try {
     emojis = await getEmojis({
