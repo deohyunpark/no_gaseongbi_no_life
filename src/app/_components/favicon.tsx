@@ -6,7 +6,11 @@ export const contentType = "image/png";
 interface FaviconProps {
   url: string;
 }
-
+declare module "next/server" {
+  export class ImageResponse {
+    constructor(content: React.ReactNode, options?: { width: number; height: number; headers?: Record<string, string> });
+  }
+}
 export function Favicon({ url }: FaviconProps) {
   return new (ImageResponse as any)(
     (
