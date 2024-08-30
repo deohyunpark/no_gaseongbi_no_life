@@ -8,8 +8,6 @@ export const getEmojis = async (opts: {
   take?: number
   skip?: number
   orderBy?:
-    | Prisma.EmojiOrderByWithRelationAndSearchRelevanceInput
-    | Prisma.EmojiOrderByWithRelationAndSearchRelevanceInput[]
   cacheStrategy?: PrismaCacheStrategy["cacheStrategy"]
 }) => {
   const take = opts.take ?? 100
