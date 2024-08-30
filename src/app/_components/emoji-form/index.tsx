@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react"
 import { useForm, FieldValues } from "react-hook-form"
 import { createEmoji } from "./action"
