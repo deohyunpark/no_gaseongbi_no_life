@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from 'src/app/supabaseClient';
 
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -99,21 +100,47 @@ const NewDealPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError(null);
 
-    try {
-      console.log('폼 데이터:', formData);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      router.push('/');
-    } catch (err) {
-      setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
-    } finally {
-      setIsSubmitting(false);
+  try {
+    // 이미지 업로드
+    let imageUrl = '';
+    if (formData.image) {
+      const { data, error: uploadError } = await supabase.storage
+        .from('images') // 스토리지 버킷 이름
+        .upload(`public/${formData.image.name}`, formData.image);
+
+      if (uploadError) throw uploadError;
+
+      imageUrl = data?.Key || ''; // 업로드 후 URL 가져오기
     }
-  };
+
+    // 데이터베이스에 상품 정보 저장
+    const { error: dbError } = await supabase
+      .from('deals') // 테이블 이름
+      .insert([
+        {
+          product_name: formData.productName,
+          category: formData.category,
+          link: formData.link,
+          image_url: imageUrl,
+          registration_date: formData.registrationDate,
+          expiration_date: formData.expirationDate,
+        },
+      ]);
+
+    if (dbError) throw dbError;
+
+    router.push('/');
+  } catch (err) {
+    setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="max-w-md mx-auto mt-10">
