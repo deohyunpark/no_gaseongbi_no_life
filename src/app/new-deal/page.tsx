@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 // 유틸리티 함수
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
