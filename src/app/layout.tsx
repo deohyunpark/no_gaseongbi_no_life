@@ -66,20 +66,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className={cn("min-h-screen flex items-stretch flex-col pb-28 max-w-5xl mx-auto", BODY_PADDING)}>
           {children}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/page1" className="flex flex-col items-center">
-              <Image src="/thumbnail1.png" alt="Thumbnail 1" width={200} height={200} className="rounded-lg" />
-              <span className="mt-2">썸네일 1 설명</span>
-            </Link>
-            <Link href="/page2" className="flex flex-col items-center">
-              <Image src="/thumbnail2.png" alt="Thumbnail 2" width={200} height={200} className="rounded-lg" />
-              <span className="mt-2">썸네일 2 설명</span>
-            </Link>
-            <Link href="/page3" className="flex flex-col items-center">
-              <Image src="/thumbnail3.png" alt="Thumbnail 3" width={200} height={200} className="rounded-lg" />
-              <span className="mt-2">썸네일 3 설명</span>
-            </Link>
-          </div>
         </main>
       </body>
     </html>
