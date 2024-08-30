@@ -1,3 +1,6 @@
+import "server-only";
+import { prisma } from "./db"; // 경로가 맞는지 확인
+
 export const getEmoji = async (id: string) => {
   try {
     const emoji = await prisma.emoji.findUnique({
