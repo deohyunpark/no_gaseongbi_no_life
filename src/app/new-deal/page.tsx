@@ -108,8 +108,9 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       // 이미지 업로드
       let imageUrl = '';
-      const session = supabase.auth.session(); // 현재 세션 가져오기
-      const jwtToken = session?.access_token; // JWT 토큰 가져오기
+const { data: { session } } = await supabase.auth.getSession(); // 현재 세션 가져오기
+const jwtToken = session?.access_token; // JWT 토큰 가져오기
+
       
       if (formData.image) {
         const { data, error: uploadError } = await supabase.storage
