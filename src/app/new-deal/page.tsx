@@ -53,8 +53,8 @@ const Label = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLL
 );
 Label.displayName = "Label";
 
-const Alert = React.forwardRef<HTMLDivElement, { variant?: 'default' | 'destructive'; className?: string; }>(
-  ({ className, variant = 'default', ...props }, ref) => {
+const Alert = React.forwardRef<HTMLDivElement, { variant?: 'default' | 'destructive'; className?: string; children?: React.ReactNode; }>(
+  ({ className, variant = 'default', children, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -65,11 +65,15 @@ const Alert = React.forwardRef<HTMLDivElement, { variant?: 'default' | 'destruct
           className
         )}
         {...props}
-      />
+      >
+        {children}
+      </div>
     );
   }
 );
 Alert.displayName = "Alert";
+
+
 
 const NewDealPage: React.FC = () => {
   const router = useRouter();
