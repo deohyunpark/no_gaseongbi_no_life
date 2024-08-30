@@ -1,25 +1,30 @@
-import { PROD_URL, SITEMAP_PAGE_SIZE } from "@/lib/constants"
-import { getEmojis } from "@/server/get-emojis"
-import { Prisma } from "@prisma/client"
-import { z } from "zod"
+import { PROD_URL, SITEMAP_PAGE_SIZE } from "@/lib/constants";
+import { getEmojis } from "@/server/get-emojis";
+import { Prisma } from "@prisma/client";
+import { z } from "zod";
 
 const sitemapContextSchema = z.object({
   params: z.object({
     page: z.number(),
   }),
-})
-type SitemapContextProps = z.infer<typeof sitemapContextSchema>
+});
+type SitemapContextProps = z.infer<typeof sitemapContextSchema>;
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
+interface Emoji {
+  id: string; // 이모지 ID
+  updatedAt: Date; // 이모지 생성/수정 날짜
+}
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET(request: Request, { params }: SitemapContextProps) {
-  const page = params.page
-  const emojis = await getEmojis({
+  const page = params.page;
+  const emojis: Emoji[] = await getEmojis({
     take: SITEMAP_PAGE_SIZE,
     skip: page * SITEMAP_PAGE_SIZE,
     orderBy: { createdAt: Prisma.SortOrder.asc },
-  })
+  });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -33,7 +38,7 @@ export async function GET(request: Request, { params }: SitemapContextProps) {
     `
       )
       .join("\n")}
-  </urlset>`
+  </urlset>`;
 
   return new Response(xml, {
     status: 200,
@@ -42,5 +47,5 @@ export async function GET(request: Request, { params }: SitemapContextProps) {
       "Cache-control": "public, s-maxage=86400, stale-while-revalidate",
       "content-type": "application/xml",
     },
-  })
+  });
 }
