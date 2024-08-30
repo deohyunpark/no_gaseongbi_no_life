@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Providers } from "./_components/providers";
 import "./globals.css";
-import NewDealComponent from './_components/page-content/page'; 
 
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
@@ -54,7 +53,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <Link href="/new-deal">
               <span>새로운 딜 등록하기</span>
-              <NewDealComponent/>
             </Link>
           </div>
           <div className="flex flex-row flex-nowrap gap-x-1.5 items-center">
