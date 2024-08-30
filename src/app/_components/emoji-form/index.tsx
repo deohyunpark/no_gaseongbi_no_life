@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useForm, FieldError } from "react-hook-form"
+import { useForm, FieldValues } from "react-hook-form"
 import { createEmoji } from "./action"
 import { SubmitButton } from "./submit-button"
 import toast from "react-hot-toast"
@@ -11,23 +11,28 @@ interface EmojiFormProps {
   initialPrompt?: string
 }
 
+interface FormData extends FieldValues {
+  prompt: string;
+  token: string;
+}
+
 export function EmojiForm({ initialPrompt }: EmojiFormProps) {
-  const { register, handleSubmit, formState } = useForm()
+  const { register, handleSubmit, formState } = useForm<FormData>()
   const submitRef = useRef<React.ElementRef<"button">>(null)
   const [token, setToken] = useState("")
 
   useEffect(() => {
-    if (formState.errors) {
-      Object.values(formState.errors).forEach((error) => {
-        const fieldError = error as FieldError
-        if (fieldError && fieldError.message) {
-          toast.error(fieldError.message)
+    const errors = Object.values(formState.errors);
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        if (error && typeof error.message === 'string') {
+          toast.error(error.message);
         }
-      })
+      });
     }
-  }, [formState])
+  }, [formState.errors])
 
-  useSWR(
+  useSWR<string>(
     "/api/token",
     async (url: string) => {
       const res = await fetch(url)
@@ -39,7 +44,7 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
     }
   )
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: FormData) => {
     createEmoji(data)
   }
 
