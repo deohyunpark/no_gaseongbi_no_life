@@ -12,9 +12,9 @@ export function Favicon({ url }: FaviconProps) {
     (
       <div
         style={{
-          background: "white",
-          width: "100%",
-          height: "100%",
+          background: "none",
+          width: "50%",
+          height: "50%",
           backgroundImage: `url(${url})`,
           backgroundSize: `${size.width}px ${size.height}px`,
           backgroundRepeat: "no-repeat",
@@ -24,6 +24,10 @@ export function Favicon({ url }: FaviconProps) {
     ),
     {
       ...size,
+      headers: {
+        "Content-Type": contentType,
+      },
     }
+    
   )
 }
