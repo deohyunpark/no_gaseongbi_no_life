@@ -1,14 +1,14 @@
-import { ImageResponse } from "next/server"
+import { ImageResponse } from "next/server";
 
-export const size = { width: 32, height: 32 }
-export const contentType = "image/png"
+export const size = { width: 32, height: 32 };
+export const contentType = "image/png";
 
 interface FaviconProps {
-  url: string
+  url: string;
 }
 
 export function Favicon({ url }: FaviconProps) {
-  return new ImageResponse(
+  return new (ImageResponse as any)(
     (
       <div
         style={{
@@ -28,6 +28,5 @@ export function Favicon({ url }: FaviconProps) {
         "Content-Type": contentType,
       },
     }
-    
-  )
+  );
 }
