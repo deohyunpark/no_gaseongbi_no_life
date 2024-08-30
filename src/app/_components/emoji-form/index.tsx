@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, FieldError } from "react-hook-form"
 import { createEmoji } from "./action"
 import { SubmitButton } from "./submit-button"
 import toast from "react-hot-toast"
@@ -19,8 +19,9 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
   useEffect(() => {
     if (formState.errors) {
       Object.values(formState.errors).forEach((error) => {
-        if (error && error.message) {
-          toast.error(error.message)
+        const fieldError = error as FieldError
+        if (fieldError && fieldError.message) {
+          toast.error(fieldError.message)
         }
       })
     }
