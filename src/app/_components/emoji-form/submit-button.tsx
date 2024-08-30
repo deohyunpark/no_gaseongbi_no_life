@@ -1,10 +1,11 @@
 import { CornerDownLeft } from "lucide-react";
 import React from "react";
-import { useFormState } from "react-hook-form"; // 수정된 부분
+import { useFormContext, useFormState } from "react-hook-form"; // useFormContext 추가
 import { Loader } from "../loader";
 
 export const SubmitButton = React.forwardRef<React.ElementRef<"button">>((_, ref) => {
-  const { isSubmitting } = useFormState(); // isSubmitting으로 상태 관리
+  const { control } = useFormContext(); // FormContext에서 control 가져오기
+  const { isSubmitting } = useFormState({ control }); // control을 useFormState에 전달
 
   return (
     <button
