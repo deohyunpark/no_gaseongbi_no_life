@@ -11,14 +11,12 @@ interface EmojiFormProps {
   initialPrompt?: string
 }
 
-interface FormState extends FieldValues {
+interface FormData extends FieldValues {
   prompt: string;
-  token: string;
-  message: string; // 'message' 필드 추가
 }
 
 export function EmojiForm({ initialPrompt }: EmojiFormProps) {
-  const { register, handleSubmit, formState } = useForm<FormState>()
+  const { register, handleSubmit, formState } = useForm<FormData>()
   const submitRef = useRef<React.ElementRef<"button">>(null)
   const [token, setToken] = useState("")
 
@@ -45,16 +43,15 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
     }
   )
 
-  const onSubmit = async (data: FormState) => {
-  try {
-    // token은 컴포넌트의 state에서 가져옵니다.
-    await createEmoji(data, token)
-    toast.success("이모지가 성공적으로 생성되었습니다!")
-  } catch (error) {
-    console.error('Error creating emoji:', error);
-    toast.error('이모지 생성에 실패했습니다.');
+  const onSubmit = async (data: FormData) => {
+    try {
+      await createEmoji({ ...data, token })
+      toast.success("이모지가 성공적으로 생성되었습니다!")
+    } catch (error) {
+      console.error('Error creating emoji:', error);
+      toast.error('이모지 생성에 실패했습니다.');
+    }
   }
-}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="bg-black rounded-xl shadow-lg h-fit flex flex-row px-1 items-center w-full">
@@ -71,7 +68,6 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
         placeholder="휴"
         className="bg-transparent text-white placeholder:text-gray-400 ring-0 outline-none resize-none py-2.5 px-2 font-mono text-sm h-10 w-full transition-all duration-300"
       />
-      <input aria-hidden type="text" {...register("token")} value={token} className="hidden" readOnly />
       <SubmitButton ref={submitRef} />
     </form>
   )
