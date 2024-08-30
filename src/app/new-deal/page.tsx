@@ -115,7 +115,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
       if (uploadError) throw uploadError;
 
-      imageUrl = data?.Key || ''; // 업로드 후 URL 가져오기
+      imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
     }
 
     // 데이터베이스에 상품 정보 저장
