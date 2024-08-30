@@ -19,7 +19,9 @@ export function EmojiForm({ initialPrompt }: EmojiFormProps) {
   useEffect(() => {
     if (formState.errors) {
       Object.values(formState.errors).forEach((error) => {
-        toast.error(error.message)
+        if (error && error.message) {
+          toast.error(error.message)
+        }
       })
     }
   }, [formState])
