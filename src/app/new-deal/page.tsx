@@ -122,7 +122,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.error('업로드 오류:', uploadError);
         throw uploadError;
     }
-    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
+    imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
     console.log('업로드된 이미지 URL:', imageUrl);
 
       }
