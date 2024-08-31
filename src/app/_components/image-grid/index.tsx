@@ -16,7 +16,7 @@ export async function ImageGrid({ prompt }: ImageGridProps) {
 
   try {
     images = await getImages({
-      take: 100,
+      take: 50,
       orderBy: prompt
         ? {
             _relevance: {
