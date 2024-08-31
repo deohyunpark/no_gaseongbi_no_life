@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={cn(inter.className, "antialiased bg-gray-100")}>
         <header className={cn("top-0 sticky z-20 w-full py-3 bg-gray-100 flex flex-row justify-between max-w-5xl mx-auto h-14 items-stretch")}>
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            <div className="relative flex items-center">
               <Menu 
                 size={24} 
                 className="cursor-pointer" 
