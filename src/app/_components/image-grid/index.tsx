@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { getImages } from "@/server/get-images"; // 이미지를 가져오는 함수
 import { ImageCard } from "../image-card"; // 이미지 카드 컴포넌트
 
@@ -11,47 +12,50 @@ interface ImageGridProps {
   prompt?: string;
 }
 
-export async function ImageGrid({ prompt }: ImageGridProps) {
-  let images: Image[] = []; // 타입 지정
+export const ImageGrid: React.FC<ImageGridProps> = ({ prompt }) => {
+  const [images, setImages] = useState<Image[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  try {
-    images = await getImages({
-      take: 50,
-      orderBy: prompt
-        ? {
-            _relevance: {
-              fields: ["productName"],
-              sort: "desc",
-              search: prompt,
-            },
-          }
-        : undefined,
-      cacheStrategy: prompt
-        ? {
-            swr: 86_400, // 1 day
-            ttl: 7_200, // 2 hours
-          }
-        : undefined,
-    });
-  } catch (error) {
-    console.error("에러로그:", error);
-    return <div>에러발생~</div>; // 에러 처리 UI
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const fetchedImages = await getImages({
+          take: 50,
+          orderBy: prompt
+            ? {
+                _relevance: {
+                  fields: ["product_name"], // 필드명 일치
+                  sort: "desc",
+                  search: prompt,
+                },
+              }
+            : undefined,
+          cacheStrategy: prompt
+            ? {
+                swr: 86_400, // 1 day
+                ttl: 7_200, // 2 hours
+              }
+            : undefined,
+        });
+        setImages(fetchedImages);
+      } catch (error) {
+        console.error("에러로그:", error);
+        setError("에러발생~"); // 에러 메시지 상태 업데이트
+      }
+    };
+
+    fetchImages();
+  }, [prompt]);
+
+  if (error) {
+    return <div>{error}</div>; // 에러 처리 UI
   }
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-1200 ease-in-out">
-      <h2 className="font-semibold text-md text-left w-full mb-3">
-        {!!prompt ? "관련 딜" : "최근 본 딜"}
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-items-stretch w-full">
-        {images.length === 0 ? (
-          <div>이미지가 없습니다.</div> // 이미지가 없을 때 메시지
-        ) : (
-          images.map((image) => (
-            <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} />
-          ))
-        )}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {images.map((image) => (
+        <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} />
+      ))}
     </div>
   );
-}
+};
