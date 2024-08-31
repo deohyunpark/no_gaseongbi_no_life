@@ -107,10 +107,8 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     try {
       // 이미지 업로드
+      let imageUrl = '';
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      // 환경변수에서 JWT 토큰 가져오기
-      // const jwtToken = process.env.NEXT_PUBLIC_JWT_TOKEN;
-      // console.log("jwtToken:",jwtToken);
       
       if (formData.image) {
         const safeFileName = `image_${Date.now()}.jpeg`;
@@ -118,15 +116,14 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { data, error: uploadError } = await supabase.storage
           .from('images') // 스토리지 버킷 이름
           .upload(safeFileName, formData.image);
-          
-    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
-    console.log('업로드된 이미지 URL:', imageUrl);
+
         
     if (uploadError) {
         console.error('업로드 오류:', uploadError);
         throw uploadError;
     }
-
+    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
+    console.log('업로드된 이미지 URL:', imageUrl);
 
       }
 
