@@ -145,7 +145,6 @@ console.log("jwtToken:",jwtToken);
       router.push('/');
     } catch (err) {
       console.error(err);
-console.log("jwtToken:",jwtToken);
       
       setError('딜 제출에 실패했습니다. 다시 시도해 주세요.');
     } finally {
