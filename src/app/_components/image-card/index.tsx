@@ -42,7 +42,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
           <div className="flex items-center text-gray-600 mb-2">
             <Truck size={18} className="mr-2" />
             <span>무료배송</span>
-            // <span>{shippingFee === 0 ? "무료배송" : `${shippingFee.toLocaleString()}원`}</span>
+{/*             <span>{shippingFee === 0 ? "무료배송" : `${shippingFee.toLocaleString()}원`}</span> */}
           </div>
         </div>
         <div className="flex items-center text-gray-500 text-sm">
