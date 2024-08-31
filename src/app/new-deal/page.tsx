@@ -116,11 +116,14 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (formData.image) {
         const { data, error: uploadError } = await supabase.storage
           .from('images') // 스토리지 버킷 이름
-          .upload(`public/${formData.image.name}`, formData.image, {
-            headers: {
-              'Authorization': `Bearer ${jwtToken}`
-            }
-          });
+          .upload(`public/${formData.image.name}`, formData.image);
+          //         ,
+          //         {
+          //   headers: {
+          //     'Authorization': `Bearer ${jwtToken}`
+          //   }
+          // }
+                 
         
     if (uploadError) {
         console.error('업로드 오류:', uploadError);
