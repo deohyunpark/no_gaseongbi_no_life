@@ -9,10 +9,15 @@ interface GetImagesParams {
       search: string;
     };
   };
+  cacheStrategy?: { // 캐시 전략 (선택적)
+    swr: number; // stale-while-revalidate
+    ttl: number; // Time-to-live
+  };
 }
 
 
-export async function getImages({ take = 50, orderBy }: GetImagesParams) {
+
+export async function getImages({ take = 50, orderBy, cacheStrategy }: GetImagesParams) {
   if (take > 50) {
     take = 50; // 최대 50개로 제한
   }
