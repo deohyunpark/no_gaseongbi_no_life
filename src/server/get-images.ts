@@ -1,7 +1,7 @@
 import { supabase } from '@/app/supabaseClient';
 
 interface GetImagesParams {
-  take: 50; // 가져올 이미지 수
+  take: 50;
 }
 
 export async function getImages({ take }: GetImagesParams) {
