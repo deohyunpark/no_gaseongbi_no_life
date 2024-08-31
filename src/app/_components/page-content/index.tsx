@@ -10,16 +10,13 @@ interface PageContentProps extends React.PropsWithChildren {
 
 export const PageContent = ({ children, prompt }: PageContentProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-yellow-100 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-b">
       <div className="py-[10vh] sm:py-[15vh] flex flex-col items-center justify-center px-4">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full animate-in fade-in slide-in-from-bottom-3 duration-1000 ease-in-out">
           <h1 className="font-bold text-4xl text-orange-600 mb-3 flex items-center justify-center">
-            <ShoppingBag className="mr-2" />
             노노가성비
-            <Sparkles className="ml-2" />
           </h1>
-          <p className="text-center text-gray-600 mb-6">가성비 넘치는 제품만 모아놨어요!</p>
-          <EmojiCount />
+          <p className="text-center text-gray-600 mb-6">가성비 넘치는 딜만 모아놨어요!</p>
           <div className="space-y-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-1200 ease-in-out">
             <EmojiForm initialPrompt={prompt} />
             {children}
