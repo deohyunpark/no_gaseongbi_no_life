@@ -1,12 +1,13 @@
 import { APP_STORE_URL, PROD_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Github, Plus } from "lucide-react";
+import { Github, Plus, ChevronDown } from "lucide-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { Providers } from "./_components/providers";
 import "./globals.css";
+import { useState } from "react";
 
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
@@ -43,6 +44,8 @@ export function generateMetadata(): Metadata {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <html lang="en">
       <body className={cn(inter.className, "antialiased bg-gray-100")}>
@@ -50,15 +53,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="flex items-center space-x-4">
             <Link className="text-black text-lg font-medium flex items-center" href="/">
               <span>노노가성비</span>
+              <ChevronDown 
+                size={16} 
+                className="ml-1 cursor-pointer" 
+                onClick={() => setIsOpen(!isOpen)} 
+              />
             </Link>
+            {isOpen && (
+              <div className="absolute bg-white shadow-lg rounded mt-2 z-10">
+                <ul className="flex flex-col">
+                  <li className="p-2 hover:bg-gray-200"><Link href="/category1">카테고리 1</Link></li>
+                  <li className="p-2 hover:bg-gray-200"><Link href="/category2">카테고리 2</Link></li>
+                  <li className="p-2 hover:bg-gray-200"><Link href="/category3">카테고리 3</Link></li>
+                </ul>
+              </div>
+            )}
             <Link href="/new-deal">
               <span>새로운 딜 등록하기</span>
             </Link>
           </div>
           <div className="flex flex-row flex-nowrap gap-x-1.5 items-center">
-            <Link href="/app?referrer=website" target="_blank" rel="noopener noreferrer">
-              <Image src="/_static/AppStoreBadge.svg" alt="App Store Badge" width={120} height={40} priority className="h-8" />
-            </Link>
             <Link href="https://github.com/pondorasti/emojis" target="_blank" rel="noopener noreferrer" className="flex items-center">
               <Github size={20} />
             </Link>
