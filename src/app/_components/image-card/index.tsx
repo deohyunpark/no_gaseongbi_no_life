@@ -21,11 +21,11 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <a 
       href={link} 
-      className="flex bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+      className="flex bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-64"
       target="_blank" 
       rel="noopener noreferrer"
     >
-      <div className="w-1/3 relative">
+      <div className="w-2/5 relative">
         <img 
           src={imageUrl} 
           alt={productName} 
@@ -33,7 +33,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         />
         <div className="absolute inset-0 bg-black opacity-0 hover:opacity-10 transition-opacity duration-300" />
       </div>
-      <div className="w-2/3 p-4 flex flex-col justify-between">
+      <div className="w-3/5 p-6 flex flex-col justify-between">
         <div>
           <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">{productName}</h3>
           <p className="text-2xl font-bold text-blue-600 mb-2">
