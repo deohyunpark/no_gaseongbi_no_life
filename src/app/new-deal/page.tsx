@@ -108,9 +108,10 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       // 이미지 업로드
       let imageUrl = '';
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       // 환경변수에서 JWT 토큰 가져오기
-      const jwtToken = process.env.NEXT_PUBLIC_JWT_TOKEN;
-      console.log("jwtToken:",jwtToken);
+      // const jwtToken = process.env.NEXT_PUBLIC_JWT_TOKEN;
+      // console.log("jwtToken:",jwtToken);
       
       if (formData.image) {
         const { data, error: uploadError } = await supabase.storage
@@ -121,9 +122,13 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             }
           });
         
-        if (uploadError) throw uploadError;
+    if (uploadError) {
+        console.error('업로드 오류:', uploadError);
+        throw uploadError;
+    }
 
-        imageUrl = data?.path || ''; // 업로드 후 URL 가져오기
+    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
+    console.log('업로드된 이미지 URL:', imageUrl);
       }
 
       // 데이터베이스에 상품 정보 저장
