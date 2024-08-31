@@ -35,17 +35,17 @@ export async function ImageGrid({ prompt }: ImageGridProps) {
     });
   } catch (error) {
     console.error("Failed to fetch images:", error);
-    return <div>Error fetching images</div>; // 에러 처리 UI
+    return <div>에러발생~</div>; // 에러 처리 UI
   }
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-1200 ease-in-out">
       <h2 className="font-semibold text-md text-left w-full mb-3">
-        {!!prompt ? "Related Products" : "Recent Products"}
+        {!!prompt ? "관련 딜" : "최근 본 딜"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-items-stretch w-full">
         {images.length === 0 ? (
-          <div>No images found.</div> // 이미지가 없을 때 메시지
+          <div>이미지가 없습니다.</div> // 이미지가 없을 때 메시지
         ) : (
           images.map((image) => (
             <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} />
