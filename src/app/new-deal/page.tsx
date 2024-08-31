@@ -118,7 +118,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(safeFileName);
         const { data, error: uploadError } = await supabase.storage
           .from('images') // 스토리지 버킷 이름
-          .upload(`${safeFileName}`, formData.image);
+          .upload(safeFileName, formData.image);
           //         ,
           //         {
           //   headers: {
