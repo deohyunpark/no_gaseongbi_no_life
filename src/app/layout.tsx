@@ -8,6 +8,9 @@ import Link from "next/link";
 import { useState } from "react";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 const BODY_PADDING = "px-4 sm:px-6";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +19,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        <title>no gaseongbi no life : 노노가성비</title>
+        <meta name="description" content="배송비딜, 100원딜, 본품체험 등 가성비 넘치는 체험딜을 공유하는 곳" />
+        <meta property="og:title" content="no gaseongbi no life : 노노가성비" />
+        <meta property="og:description" content="배송비딜, 100원딜, 본품체험 등 가성비 넘치는 체험딜을 공유하는 곳" />
+        <meta property="og:url" content={PROD_URL} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="no gaseongbi no life : 노노가성비" />
+        <meta name="twitter:description" content="배송비딜, 100원딜, 본품체험 등 가성비 넘치는 체험딜을 공유하는 곳" />
+        <meta name="twitter:creator" content="@pondorasti" />
+      </head>
       <body className={cn(inter.className, "antialiased bg-gray-100")}>
         <header className={cn("top-0 sticky z-20 w-full py-3 bg-gray-100 flex flex-row justify-between max-w-5xl mx-auto h-14 items-stretch")}>
           <div className="flex items-center space-x-4">
