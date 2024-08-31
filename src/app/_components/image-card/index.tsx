@@ -19,38 +19,39 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   link 
 }) => {
   return (
-    <a 
-      href={link} 
-      className="flex bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-64"
-      target="_blank" 
-      rel="noopener noreferrer"
-    >
-      <div className="w-2/5 relative">
-        <img 
-          src={imageUrl} 
-          alt={productName} 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black opacity-0 hover:opacity-10 transition-opacity duration-300" />
+<a 
+  href={link} 
+  className="flex bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 h-48" // 세로 사이즈 줄임
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <div className="w-2/5 relative">
+    <img 
+      src={imageUrl} 
+      alt={productName} 
+      className="w-full h-full object-cover" // 정방형으로 늘리기 위해 width와 height를 동일하게 설정
+    />
+    <div className="absolute inset-0 bg-black opacity-0 hover:opacity-10 transition-opacity duration-300" />
+  </div>
+  <div className="w-3/5 p-4 flex flex-col justify-between"> {/* 패딩을 줄여서 세로 크기 감소 */}
+    <div>
+      <h3 className="font-semibold text-md text-gray-800 mb-1 line-clamp-2">{productName}</h3> {/* 글자 크기 줄임 */}
+      <p className="text-xl font-bold text-blue-600 mb-1"> {/* 글자 크기 줄임 */}
+        가격 원
+      </p>
+      <div className="flex items-center text-gray-600 mb-1"> {/* 마진 줄임 */}
+        <Truck size={18} className="mr-2" />
+        <span>무료배송</span>
       </div>
-      <div className="w-3/5 p-6 flex flex-col justify-between">
-        <div>
-          <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">{productName}</h3>
-          <p className="text-2xl font-bold text-blue-600 mb-2">
-            가격 원
-          </p>
-          <div className="flex items-center text-gray-600 mb-2">
-            <Truck size={18} className="mr-2" />
-            <span>무료배송</span>
-{/*             <span>{shippingFee === 0 ? "무료배송" : `${shippingFee.toLocaleString()}원`}</span> */}
-          </div>
-        </div>
-        <div className="flex items-center text-gray-500 text-sm">
-          <Clock size={16} className="mr-2" />
-          <span>마감 </span>
-        </div>
-      </div>
-    </a>
+    </div>
+    <div className="flex items-center text-gray-500 text-xs"> {/* 글자 크기 줄임 */}
+      <Clock size={16} className="mr-2" />
+      <span>마감 </span>
+    </div>
+  </div>
+</a>
+
+  
   );
 };
 
