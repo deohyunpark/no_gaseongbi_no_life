@@ -118,21 +118,16 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { data, error: uploadError } = await supabase.storage
           .from('images') // 스토리지 버킷 이름
           .upload(safeFileName, formData.image);
-          //         ,
-          //         {
-          //   headers: {
-          //     'Authorization': `Bearer ${jwtToken}`
-          //   }
-          // }
-                 
+          
+    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
+    console.log('업로드된 이미지 URL:', imageUrl);
         
     if (uploadError) {
         console.error('업로드 오류:', uploadError);
         throw uploadError;
     }
 
-    const imageUrl = `https://${supabaseUrl}/storage/v1/object/public/images/${data.path}`;
-    console.log('업로드된 이미지 URL:', imageUrl);
+
       }
 
       // 데이터베이스에 상품 정보 저장
