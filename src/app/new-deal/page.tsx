@@ -109,7 +109,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       // 이미지 업로드
       let imageUrl = '';
       // 환경변수에서 JWT 토큰 가져오기
-      const jwtToken = process.env.JWT_TOKEN;
+      const jwtToken = process.env.NEXT_PUBLIC_JWT_TOKEN;
       console.log("jwtToken:",jwtToken);
       
       if (formData.image) {
