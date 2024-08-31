@@ -8,6 +8,7 @@ interface Image {
   id: string;
   image_url: string; // 이미지 URL 필드
   product_name: string; // 상품명 필드
+  link: string
 }
 
 interface ImageGridProps {
@@ -56,7 +57,7 @@ export const ImageGrid: React.FC<ImageGridProps> = ({ prompt }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((image) => (
-        <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} />
+        <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} link={image.link} />
       ))}
     </div>
   );
