@@ -3,8 +3,8 @@ import { ImageCard } from "../image-card"; // 이미지 카드 컴포넌트
 
 interface Image {
   id: string;
-  imageUrl: string; // 이미지 URL 필드
-  productName: string; // 상품명 필드
+  image_url: string; // 이미지 URL 필드
+  product_name: string; // 상품명 필드
 }
 
 interface ImageGridProps {
@@ -48,7 +48,7 @@ export async function ImageGrid({ prompt }: ImageGridProps) {
           <div>No images found.</div> // 이미지가 없을 때 메시지
         ) : (
           images.map((image) => (
-            <ImageCard key={image.id} imageUrl={image.imageUrl} productName={image.productName} />
+            <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} />
           ))
         )}
       </div>
