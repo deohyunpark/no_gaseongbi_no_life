@@ -23,7 +23,7 @@ export async function getImages({ take = 50, orderBy, cacheStrategy }: GetImages
   }
   try {
     const query = supabase
-      .from('images')
+      .from('deals')
       .select('*')
       .order('id', { ascending: false })
       .limit(take);
