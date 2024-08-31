@@ -34,7 +34,7 @@ export async function ImageGrid({ prompt }: ImageGridProps) {
         : undefined,
     });
   } catch (error) {
-    console.error("Failed to fetch images:", error);
+    console.error("에러로그:", error);
     return <div>에러발생~</div>; // 에러 처리 UI
   }
 
