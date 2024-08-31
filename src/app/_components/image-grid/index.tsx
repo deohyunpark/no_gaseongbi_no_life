@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { getImages } from "@/server/get-images"; // 이미지를 가져오는 함수
 import { ImageCard } from "../image-card"; // 이미지 카드 컴포넌트
