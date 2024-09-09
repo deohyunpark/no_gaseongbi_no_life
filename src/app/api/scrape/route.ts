@@ -19,6 +19,7 @@ export async function GET(request: Request) {
     const title = $('div._1eddO7u4UC h3').text();
     const price = $('span._1LY7DqCnwR').text();
     const imageUrl = $('img[alt="대표이미지"]').attr('src');
+    console.log(title);
 
     return NextResponse.json({
       title: title || '제목을 찾을 수 없습니다.',
