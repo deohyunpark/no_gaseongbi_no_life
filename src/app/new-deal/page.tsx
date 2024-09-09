@@ -112,7 +112,7 @@ const NewDealPage: React.FC = () => {
 
       // URL로부터 상품 정보를 가져오는 API 요청
       const { data } = await axios.get(`/api/scrape?url=${encodeURIComponent(formData.link)}`);
-
+      console.log(data);
       // 가져온 데이터로 폼 필드를 자동 채우기
       setFormData({
         ...formData,
