@@ -234,7 +234,14 @@ const NewDealPage: React.FC = () => {
 
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? '제출 중...' : '딜 등록하기'}
-        </Button
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default NewDealPage;
+
 
 
 // "use client";
