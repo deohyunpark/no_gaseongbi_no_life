@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios, { AxiosError } from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 async function fetchData(url: string, retries: number = 3): Promise<string> {
   try {
