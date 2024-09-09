@@ -4,12 +4,16 @@ import cheerio from 'cheerio';
 
 async function fetchData(url: string, retries: number = 3): Promise<string> {
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
     return data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 429 && retries > 0) {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // 2초 지연 후 재시도
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 5초 지연 후 재시도
         return fetchData(url, retries - 1);
       }
     }
