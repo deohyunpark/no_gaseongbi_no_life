@@ -32,11 +32,13 @@ async function fetchData(url: string, retries: number = 3): Promise<string> {
 
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url).searchParams.get('url');
-
-    if (!url || typeof url !== 'string') {
+    const urlParam = new URL(request.url).searchParams.get('url');
+    if (!urlParam) {
       return NextResponse.json({ error: '유효한 URL이 필요합니다.' }, { status: 400 });
     }
+
+    // URL 디코딩
+    const url = decodeURIComponent(urlParam);
 
     const data = await fetchData(url);
     const $ = cheerio.load(data);
@@ -55,6 +57,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: '데이터 가져오는데 에러발생 ㅡㅡ;' }, { status: 500 });
   }
 }
+
 
 
 // import { NextResponse } from 'next/server';
