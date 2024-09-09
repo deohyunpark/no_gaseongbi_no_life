@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // 주어진 URL로 HTTP 요청을 보냅니다.
     const { data } = await axios.get(url);
-
     // cheerio로 HTML을 파싱합니다.
     const $ = cheerio.load(data);
 
@@ -21,6 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const title = $('div._1eddO7u4UC h3').text(); // 페이지의 제목 추출 (예시)
     const price = $('span._1LY7DqCnwR').text(); // 가격 정보가 있는 태그에서 가격을 추출 (예시)
     const imageUrl = $('img[alt="대표이미지"]').attr('src');
+    console.log(title);
 
     // 필요한 데이터가 여러개일 경우, 추가로 다른 태그를 찾아 데이터를 추출할 수 있습니다.
 
