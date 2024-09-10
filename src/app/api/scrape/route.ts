@@ -43,10 +43,9 @@ export async function GET(request: Request) {
     const data = await fetchData(url);
     const $ = cheerio.load(data);
 
-    const title = $('div._1eddO7u4UC h3').text();
-    const price = $('span._1LY7DqCnwR').text();
-    const imageUrl = $('img[alt="대표이미지"]').attr('src');
-
+    const title = $('h2').text();
+    const price = $('[class*="price"]').text();
+    const imageUrl = $('img.ThumbImage').attr('src');
     return NextResponse.json({
       title: title || '제목을 찾을 수 없습니다.',
       price: price || '가격을 찾을 수 없습니다.',
