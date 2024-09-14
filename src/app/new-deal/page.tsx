@@ -117,7 +117,7 @@ const NewDealPage: React.FC = () => {
       setFormData({
         ...formData,
         productName: data.title,
-        image: null, // 파일 업로드 폼과 충돌을 피하기 위해 비워 둠
+        image: data.imageUrl, // 파일 업로드 폼과 충돌을 피하기 위해 비워 둠
         registrationDate: new Date().toISOString().split('T')[0],
         expirationDate: '',
       });
