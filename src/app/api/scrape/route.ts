@@ -68,12 +68,7 @@ export async function GET(request: Request) {
                 || $('img[alt*="대표이미지"]').attr('src') 
                 || $('img').first().attr('src');
 
-    if (imageUrl) {
-      // 상대 경로인지 확인하고 절대 경로로 변환
-      if (!imageUrl.startsWith('http')) {
-        const baseUrl = new URL(url);
-        imageUrl = `${baseUrl.origin}${imageUrl}`;
-      }
+     if (imageUrl) {
       console.log(`Final Image URL: ${imageUrl}`);  // 이미지 URL 확인을 위한 로그
     } else {
       console.log('Image URL not found');  // 이미지가 없는 경우
