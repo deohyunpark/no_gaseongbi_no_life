@@ -46,7 +46,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         </div>
         <div className="flex items-center text-gray-500 text-xs">
           <Clock size={16} className="mr-2" />
-          <span>마감 {expiration_date}</span>
+          <span>마감 {expiration_date.toLocaleDateString()}</span>
         </div>
       </div>
     </a>
