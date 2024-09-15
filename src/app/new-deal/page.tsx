@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/supabaseClient';
 import axios from 'axios';
+import Image from 'next/image';
 
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ');
 
