@@ -208,13 +208,29 @@ const NewDealPage: React.FC = () => {
           </select>
         </div>
 
-        <div className="mb-4">
+            <div className="mb-4">
           <Label htmlFor="image">이미지</Label>
           <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
           {formData.image ? (
-            <img src={URL.createObjectURL(formData.image)} alt="썸네일" className="mt-2 h-20 w-20 object-cover rounded-md" />
+            <div className="mt-2 h-20 w-20 relative">
+              <Image
+                src={URL.createObjectURL(formData.image)}
+                alt="썸네일"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
+              />
+            </div>
           ) : formData.imageUrl ? (
-            <img src={formData.imageUrl} alt="썸네일" className="mt-2 h-20 w-20 object-cover rounded-md" />
+            <div className="mt-2 h-20 w-20 relative">
+              <Image
+                src={formData.imageUrl}
+                alt="썸네일"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
+              />
+            </div>
           ) : null}
         </div>
 
