@@ -9,7 +9,7 @@ interface ImageCardProps {
   link: string;
   price: number;
   shipping_charge: number;
-  expiration_date: Date | null; // null을 허용
+  expiration_date: Date | string | null; // string 타입도 허용
 }
 
 export const ImageCard: React.FC<ImageCardProps> = ({ 
@@ -20,15 +20,27 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   shipping_charge,
   expiration_date
 }) => {
-  const formatDate = (date: Date | null) => {
+  const formatDate = (date: Date | string | null) => {
     if (!date) {
       return '날짜 없음';
     }
-    if (!(date instanceof Date) || isNaN(date.getTime())) {
+    
+    let dateObject: Date;
+    
+    if (typeof date === 'string') {
+      dateObject = new Date(date);
+    } else if (date instanceof Date) {
+      dateObject = date;
+    } else {
+      return '유효하지 않은 날짜 형식';
+    }
+
+    if (isNaN(dateObject.getTime())) {
       return '유효하지 않은 날짜';
     }
+
     try {
-      return date.toLocaleString('ko-KR', {
+      return dateObject.toLocaleString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -41,6 +53,9 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       return '날짜 형식 오류';
     }
   };
+
+  // 디버깅을 위한 콘솔 로그 추가
+  console.log('ImageCard props:', { imageUrl, productName, link, price, shipping_charge, expiration_date });
 
   return (
     <a 
