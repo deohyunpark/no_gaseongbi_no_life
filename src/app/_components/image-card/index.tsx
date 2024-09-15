@@ -1,5 +1,4 @@
 "use client";
-
 import React from 'react';
 import Image from 'next/image';
 import { Clock, Truck } from 'lucide-react';
@@ -10,7 +9,7 @@ interface ImageCardProps {
   link: string;
   price: number;
   shipping_charge: number;
-  expiration_date: Date | null; // null을 허용하도록 변경
+  expiration_date: Date | null; // null을 허용
 }
 
 export const ImageCard: React.FC<ImageCardProps> = ({ 
@@ -22,9 +21,11 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   expiration_date
 }) => {
   const formatDate = (date: Date | null) => {
-    // date가 null일 경우 처리
     if (!date) {
-      return '날짜 없음'; // 기본값 설정
+      return '날짜 없음';
+    }
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      return '유효하지 않은 날짜';
     }
     try {
       return date.toLocaleString('ko-KR', {
@@ -37,7 +38,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       });
     } catch (error) {
       console.error('Error formatting date:', error);
-      return '날짜 형식 오류'; // 에러가 발생한 경우 기본 메시지
+      return '날짜 형식 오류';
     }
   };
 
@@ -69,16 +70,14 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             <span>{shipping_charge === 0 ? '무료배송' : `${shipping_charge.toLocaleString()}원`}</span>
           </div>
         </div>
-{/*         <div className="flex items-center text-gray-500 text-xs">
+        <div className="flex items-center text-gray-500 text-xs">
           <Clock size={16} className="mr-2" />
           <span>마감 {formatDate(expiration_date)}</span>
-        </div> */}
+        </div>
       </div>
     </a>
   );
 };
-
-
 
 // import React from 'react';
 // import { Clock, Truck } from 'lucide-react';
