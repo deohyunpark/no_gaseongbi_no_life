@@ -8,7 +8,7 @@ interface ImageCardProps {
   link: string;
   price: number;
   shipping_charge: number;
-  expiration_date: Date;
+  expiration_date: Date | null; // null을 허용하도록 변경
 }
 
 export const ImageCard: React.FC<ImageCardProps> = ({ 
@@ -19,7 +19,11 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   shipping_charge,
   expiration_date
 }) => {
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    // date가 null일 경우 처리
+    if (!date) {
+      return '날짜 없음'; // 기본값 설정
+    }
     return date.toLocaleString('ko-KR', {
       year: 'numeric',
       month: '2-digit',
@@ -66,6 +70,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
     </a>
   );
 };
+
 
 // import React from 'react';
 // import { Clock, Truck } from 'lucide-react';
