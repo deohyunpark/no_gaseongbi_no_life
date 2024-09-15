@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Clock, Truck } from 'lucide-react';
 
 interface ImageCardProps {
@@ -18,6 +19,17 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   shipping_charge,
   expiration_date
 }) => {
+  const formatDate = (date: Date) => {
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  };
+
   return (
     <a 
       href={link} 
@@ -26,10 +38,12 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       rel="noopener noreferrer"
     >
       <div className="w-2/5 relative h-full">
-        <img 
+        <Image 
           src={imageUrl} 
           alt={productName} 
-          className="w-full h-full object-cover"
+          layout="fill"
+          objectFit="cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-black opacity-0 hover:opacity-10 transition-opacity duration-300" />
       </div>
@@ -46,7 +60,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         </div>
         <div className="flex items-center text-gray-500 text-xs">
           <Clock size={16} className="mr-2" />
-          <span>마감 {expiration_date.toLocaleDateString()}</span>
+          <span>마감 {formatDate(expiration_date)}</span>
         </div>
       </div>
     </a>
