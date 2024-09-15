@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
 import { Clock, Truck } from 'lucide-react';
@@ -24,14 +26,19 @@ export const ImageCard: React.FC<ImageCardProps> = ({
     if (!date) {
       return '날짜 없음'; // 기본값 설정
     }
-    return date.toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    });
+    try {
+      return date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return '날짜 형식 오류'; // 에러가 발생한 경우 기본 메시지
+    }
   };
 
   return (
@@ -70,6 +77,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
     </a>
   );
 };
+
 
 
 // import React from 'react';
