@@ -69,10 +69,10 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             <span>{shipping_charge === 0 ? '무료배송' : `${shipping_charge.toLocaleString()}원`}</span>
           </div>
         </div>
-        <div className="flex items-center text-gray-500 text-xs">
+{/*         <div className="flex items-center text-gray-500 text-xs">
           <Clock size={16} className="mr-2" />
           <span>마감 {formatDate(expiration_date)}</span>
-        </div>
+        </div> */}
       </div>
     </a>
   );
