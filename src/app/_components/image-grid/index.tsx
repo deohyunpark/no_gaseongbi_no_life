@@ -11,7 +11,7 @@ interface Image {
   link: string;
   price: number;
   shipping_charge: number;
-  expiration_date: Date;
+  expiration_date: string | null; // string 또는 null로 변경
 }
 
 interface ImageGridProps {
@@ -43,7 +43,14 @@ export const ImageGrid: React.FC<ImageGridProps> = ({ prompt }) => {
               }
             : undefined,
         });
-        setImages(fetchedImages);
+
+        // expiration_date를 Date 객체로 변환
+        const formattedImages = fetchedImages.map((image: Image) => ({
+          ...image,
+          expiration_date: image.expiration_date ? new Date(image.expiration_date) : null,
+        }));
+
+        setImages(formattedImages);
       } catch (error) {
         console.error("에러로그:", error);
         setError("에러발생~"); // 에러 메시지 상태 업데이트
@@ -60,7 +67,15 @@ export const ImageGrid: React.FC<ImageGridProps> = ({ prompt }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
       {images.map((image) => (
-        <ImageCard key={image.id} imageUrl={image.image_url} productName={image.product_name} link={image.link} price={image.price} shipping_charge={image.shipping_charge} expiration_date={image.expiration_date} />
+        <ImageCard 
+          key={image.id} 
+          imageUrl={image.image_url} 
+          productName={image.product_name} 
+          link={image.link} 
+          price={image.price} 
+          shipping_charge={image.shipping_charge} 
+          expiration_date={image.expiration_date} // Date 객체 전달
+        />
       ))}
     </div>
   );
