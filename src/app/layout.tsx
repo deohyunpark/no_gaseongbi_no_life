@@ -34,33 +34,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={cn(inter.className, "antialiased bg-gray-100")}>
         <header className={cn("top-0 sticky z-20 w-full py-3 bg-gray-100 flex flex-row justify-between max-w-5xl mx-auto h-14 items-stretch")}>
           <div className="flex items-center space-x-4">
-            <div className="relative flex items-center">
+            <div className="relative group">
               <Menu 
-                size={24} 
-                className="cursor-pointer" 
-                onMouseEnter={() => setIsOpen(true)} 
-                onMouseLeave={() => setIsOpen(false)} 
+                size={32} 
+                className="cursor-pointer text-gray-700 hover:text-gray-900 transition-colors" 
               />
-              {isOpen && (
-                <div className="absolute bg-white shadow-lg rounded mt-2 z-10">
-                  <ul className="flex flex-col">
-                    <li className="p-2 hover:bg-gray-200"><Link href="/category1">카테고리 1</Link></li>
-                    <li className="p-2 hover:bg-gray-200"><Link href="/category2">카테고리 2</Link></li>
-                    <li className="p-2 hover:bg-gray-200"><Link href="/category3">카테고리 3</Link></li>
-                  </ul>
+              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out">
+                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                  <Link href="/category1" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">카테고리 1</Link>
+                  <Link href="/category2" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">카테고리 2</Link>
+                  <Link href="/category3" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">카테고리 3</Link>
                 </div>
-              )}
+              </div>
             </div>
             <Link className="text-black text-lg font-medium" href="/">
               <span>노노가성비</span>
             </Link>
-            <Link href="/new-deal">
+            <Link href="/new-deal" className="text-gray-700 hover:text-gray-900 transition-colors">
               <span>새로운 딜 등록하기</span>
             </Link>
           </div>
           <div className="flex flex-row gap-x-1.5 items-center">
             <Link href="https://github.com/pondorasti/emojis" target="_blank" rel="noopener noreferrer" className="flex items-center">
-              <Github size={20} />
+              <Github size={24} className="text-gray-700 hover:text-gray-900 transition-colors" />
             </Link>
           </div>
         </header>
