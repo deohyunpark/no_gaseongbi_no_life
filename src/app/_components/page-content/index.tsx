@@ -1,7 +1,7 @@
 import React, { Suspense } from "react"
 import { ImageGrid } from "../image-grid"
 import { EmojiForm } from "../emoji-form"
-import { Sparkles, Loader } from "lucide-react"
+import { Search, Loader } from "lucide-react"
 
 interface PageContentProps extends React.PropsWithChildren {
   prompt?: string
@@ -9,24 +9,24 @@ interface PageContentProps extends React.PropsWithChildren {
 
 export const PageContent: React.FC<PageContentProps> = ({ children, prompt }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-      <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8 animate-fadeIn">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto animate-slideUp">
-          <h1 className="font-bold text-5xl sm:text-6xl text-orange-600 mb-6 text-center flex items-center justify-center animate-slideUp">
-            <Sparkles className="mr-3 text-orange-400" />
+    <div className="min-h-screen bg-[#fafafa]">
+      <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="font-semibold text-4xl sm:text-5xl text-gray-900 mb-6 text-center">
             노노가성비
-            <Sparkles className="ml-3 text-orange-400" />
           </h1>
-          <p className="text-center text-gray-600 mb-10 text-lg sm:text-xl animate-slideUp">
-            가성비 넘치는 특별한 딜만 엄선했어요!
+          <p className="text-center text-gray-500 mb-12 text-lg">
+            가성비 넘치는 특별한 딜만 엄선했어요
           </p>
-          <div className="space-y-8 w-full animate-slideUp">
+          <div className="mb-12">
             <EmojiForm initialPrompt={prompt} />
+          </div>
+          <div className="space-y-8 w-full">
             {children}
           </div>
         </div>
         <Suspense fallback={<LoadingFallback />}>
-          <div className="animate-slideUp">
+          <div className="mt-16">
             <ImageGrid prompt={prompt} />
           </div>
         </Suspense>
@@ -36,11 +36,8 @@ export const PageContent: React.FC<PageContentProps> = ({ children, prompt }) =>
 }
 
 const LoadingFallback: React.FC = () => (
-  <div className="text-center p-6 bg-orange-100 rounded-2xl shadow-lg mx-auto max-w-md mt-10 animate-fadeIn">
-    <div className="flex items-center justify-center space-x-4">
-      <Loader className="animate-spin text-orange-500" size={32} />
-      <p className="text-lg font-medium text-orange-700">멋진 상품들을 불러오는 중...</p>
-    </div>
+  <div className="flex justify-center items-center h-32">
+    <Loader className="animate-spin text-gray-400" size={24} />
   </div>
 )
 
