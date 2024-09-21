@@ -1,60 +1,92 @@
 import React, { Suspense } from "react"
 import { ImageGrid } from "../image-grid"
-import { EmojiCount } from "../emoji-count"
 import { EmojiForm } from "../emoji-form"
-import { motion } from 'framer-motion';
-import { Tag, ShoppingBag, Sparkles } from "lucide-react"
+import { Sparkles, Loader } from "lucide-react"
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface PageContentProps extends React.PropsWithChildren {
   prompt?: string
 }
 
-export const PageContent = ({ children, prompt }: PageContentProps) => {
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+  transition: { duration: 0.5 }
+}
+
+export const PageContent: React.FC<PageContentProps> = ({ children, prompt }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-100 to-white">
-      <div className="py-[10vh] sm:py-[15vh] flex flex-col items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="bg-white rounded-2xl shadow-xl p-8 max-w-2xl w-full"
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+      <AnimatePresence>
+        <motion.div 
+          className="container mx-auto py-16 px-4 sm:px-6 lg:px-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h1 className="font-bold text-5xl text-orange-600 mb-4 flex items-center justify-center">
-            <Sparkles className="mr-2" />
-            노노가성비
-            <Sparkles className="ml-2" />
-          </h1>
-          <p className="text-center text-gray-600 mb-8 text-lg">가성비 넘치는 딜만 모아놨어요!</p>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="space-y-6 w-full"
+            className="bg-white rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto"
+            variants={fadeInUp}
+            {...fadeInUp}
           >
-            <EmojiForm initialPrompt={prompt} />
-            {children}
+            <motion.h1 
+              className="font-bold text-5xl sm:text-6xl text-orange-600 mb-6 text-center flex items-center justify-center"
+              variants={fadeInUp}
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+            >
+              <Sparkles className="mr-3 text-orange-400" />
+              노노가성비
+              <Sparkles className="ml-3 text-orange-400" />
+            </motion.h1>
+            <motion.p 
+              className="text-center text-gray-600 mb-10 text-lg sm:text-xl"
+              variants={fadeInUp}
+              {...fadeInUp}
+              transition={{ delay: 0.3 }}
+            >
+              가성비 넘치는 특별한 딜만 엄선했어요!
+            </motion.p>
+            <motion.div
+              className="space-y-8 w-full"
+              variants={fadeInUp}
+              {...fadeInUp}
+              transition={{ delay: 0.4 }}
+            >
+              <EmojiForm initialPrompt={prompt} />
+              {children}
+            </motion.div>
           </motion.div>
+
+          <Suspense fallback={<LoadingFallback />}>
+            <motion.div
+              variants={fadeInUp}
+              {...fadeInUp}
+              transition={{ delay: 0.6 }}
+            >
+              <ImageGrid prompt={prompt} />
+            </motion.div>
+          </Suspense>
         </motion.div>
-      </div>
-      <Suspense fallback={
-        <div className="text-center p-4 bg-orange-100 rounded-lg shadow-md mx-auto max-w-md mt-8">
-          <div className="animate-pulse flex space-x-4">
-            <div className="rounded-full bg-orange-300 h-12 w-12"></div>
-            <div className="flex-1 space-y-4 py-1">
-              <div className="h-4 bg-orange-300 rounded w-3/4"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-orange-300 rounded"></div>
-                <div className="h-4 bg-orange-300 rounded w-5/6"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      }>
-        <ImageGrid prompt={prompt} />
-      </Suspense>
+      </AnimatePresence>
     </div>
   )
 }
+
+const LoadingFallback: React.FC = () => (
+  <motion.div 
+    className="text-center p-6 bg-orange-100 rounded-2xl shadow-lg mx-auto max-w-md mt-10"
+    variants={fadeInUp}
+    {...fadeInUp}
+  >
+    <div className="flex items-center justify-center space-x-4">
+      <Loader className="animate-spin text-orange-500" size={32} />
+      <p className="text-lg font-medium text-orange-700">멋진 상품들을 불러오는 중...</p>
+    </div>
+  </motion.div>
+)
 
 // export const PageContent = ({ children, prompt }: PageContentProps) => {
 //   return (
