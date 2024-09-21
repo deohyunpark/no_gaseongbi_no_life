@@ -3,7 +3,6 @@ import { ImageGrid } from "../image-grid"
 import { EmojiCount } from "../emoji-count"
 import { EmojiForm } from "../emoji-form"
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import { Tag, ShoppingBag, Sparkles } from "lucide-react"
 
 interface PageContentProps extends React.PropsWithChildren {
