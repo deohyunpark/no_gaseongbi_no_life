@@ -2,90 +2,46 @@ import React, { Suspense } from "react"
 import { ImageGrid } from "../image-grid"
 import { EmojiForm } from "../emoji-form"
 import { Sparkles, Loader } from "lucide-react"
-import { motion, AnimatePresence } from 'framer-motion'
 
 interface PageContentProps extends React.PropsWithChildren {
   prompt?: string
 }
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-  transition: { duration: 0.5 }
-}
-
 export const PageContent: React.FC<PageContentProps> = ({ children, prompt }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-      <AnimatePresence>
-        <motion.div 
-          className="container mx-auto py-16 px-4 sm:px-6 lg:px-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <motion.div
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto"
-            variants={fadeInUp}
-            {...fadeInUp}
-          >
-            <motion.h1 
-              className="font-bold text-5xl sm:text-6xl text-orange-600 mb-6 text-center flex items-center justify-center"
-              variants={fadeInUp}
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
-            >
-              <Sparkles className="mr-3 text-orange-400" />
-              노노가성비
-              <Sparkles className="ml-3 text-orange-400" />
-            </motion.h1>
-            <motion.p 
-              className="text-center text-gray-600 mb-10 text-lg sm:text-xl"
-              variants={fadeInUp}
-              {...fadeInUp}
-              transition={{ delay: 0.3 }}
-            >
-              가성비 넘치는 특별한 딜만 엄선했어요!
-            </motion.p>
-            <motion.div
-              className="space-y-8 w-full"
-              variants={fadeInUp}
-              {...fadeInUp}
-              transition={{ delay: 0.4 }}
-            >
-              <EmojiForm initialPrompt={prompt} />
-              {children}
-            </motion.div>
-          </motion.div>
-
-          <Suspense fallback={<LoadingFallback />}>
-            <motion.div
-              variants={fadeInUp}
-              {...fadeInUp}
-              transition={{ delay: 0.6 }}
-            >
-              <ImageGrid prompt={prompt} />
-            </motion.div>
-          </Suspense>
-        </motion.div>
-      </AnimatePresence>
+      <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-3xl mx-auto animate-slideUp">
+          <h1 className="font-bold text-5xl sm:text-6xl text-orange-600 mb-6 text-center flex items-center justify-center animate-slideUp">
+            <Sparkles className="mr-3 text-orange-400" />
+            노노가성비
+            <Sparkles className="ml-3 text-orange-400" />
+          </h1>
+          <p className="text-center text-gray-600 mb-10 text-lg sm:text-xl animate-slideUp">
+            가성비 넘치는 특별한 딜만 엄선했어요!
+          </p>
+          <div className="space-y-8 w-full animate-slideUp">
+            <EmojiForm initialPrompt={prompt} />
+            {children}
+          </div>
+        </div>
+        <Suspense fallback={<LoadingFallback />}>
+          <div className="animate-slideUp">
+            <ImageGrid prompt={prompt} />
+          </div>
+        </Suspense>
+      </div>
     </div>
   )
 }
 
 const LoadingFallback: React.FC = () => (
-  <motion.div 
-    className="text-center p-6 bg-orange-100 rounded-2xl shadow-lg mx-auto max-w-md mt-10"
-    variants={fadeInUp}
-    {...fadeInUp}
-  >
+  <div className="text-center p-6 bg-orange-100 rounded-2xl shadow-lg mx-auto max-w-md mt-10 animate-fadeIn">
     <div className="flex items-center justify-center space-x-4">
       <Loader className="animate-spin text-orange-500" size={32} />
       <p className="text-lg font-medium text-orange-700">멋진 상품들을 불러오는 중...</p>
     </div>
-  </motion.div>
+  </div>
 )
 
 // export const PageContent = ({ children, prompt }: PageContentProps) => {
